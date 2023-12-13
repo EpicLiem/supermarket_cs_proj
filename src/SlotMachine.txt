@@ -1,0 +1,19 @@
+Rules:
+    Initial Bet: Players start by inserting an amount of money. They must have sufficient funds to play.
+
+    Game Loop: The game continues as long as the player has money and chooses to keep playing. Each play costs $1.00.
+
+    Winning Conditions:
+        If three random numbers (rand1, rand2, rand3) match, the player wins. The amount won depends on the numbers:
+            If all three numbers are 3, the player wins the jackpot (which starts at $10 and increases by $0.10 after each loss).
+            For any other matching numbers, the player wins a fixed amount ($5.00).
+        There's also a special jackpot that triggers randomly, allowing the player to bet and potentially triple their bet.
+
+    Losing Conditions: If the numbers do not match, the player loses their $1.00 bet, and the jackpot increases slightly.
+
+    Odds: The odds of winning or losing are not explicitly stated but depend on the random number generation. Typically, slot machines are designed to have a house edge, meaning the odds are usually in favor of the game operator over time.
+
+    Ending the Game: Players can choose to stop playing or may be forced to stop if they run out of funds.
+
+Odds:
+After a 1 million simulations, it came out to be a loss of ~$0.17 per play
