@@ -136,11 +136,23 @@ public class Display {
                             animateNumbers(rand1, rand2, rand3);
                             if (rand1 == rand2 && rand2 == rand3) {
                                 if (rand1 == 3) {
-                                    System.out.println("🎉🎉🎉 JACKPOT! You won $" + jackpot + "! 🎉🎉🎉");
-                                    itemChoice += jackpot;
-                                    jackpot = 10.00;
+                                    if (winamount > 5.00) {
+                                        double multiplier = winamount / 5.00;
+                                        jackpot *= multiplier;
+                                        jackpot = Math.round(jackpot * 100) / 100.0;
+                                        System.out.println("🎉🎉🎉 MEGA JACKPOT! You won $" + jackpot + "! 🎉🎉🎉");
+                                    }
+                                    else {
+                                        System.out.println("🎉🎉🎉 JACKPOT! You won $" + jackpot + "! 🎉🎉🎉");
+                                        itemChoice += jackpot;
+                                        jackpot = 10.00;
+                                    }
                                 } else {
-                                    System.out.println("🌟 You won $" + winamount + "! 🌟");
+                                    if (winamount > 5.00) {
+                                        System.out.println("🎉🎉🎉 SPECIAL WIN! You won $" + winamount + "! 🎉🎉🎉");
+                                    } else {
+                                        System.out.println("🌟 You won $" + winamount + "! 🌟");
+                                    }
                                     itemChoice += winamount;
                                 }
                             } else {
