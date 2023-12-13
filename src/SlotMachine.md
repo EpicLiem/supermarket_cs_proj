@@ -13,8 +13,8 @@ Welcome to the "🎰 Slot Machine Extravaganza 🎰", where matching 3 symbols c
 3. **Jackpot**: The starting jackpot is $10.00 and increases after each round if there's no winner.
 4. **Special Jackpot Chance**: Occasionally, you'll get a chance to bet for a special jackpot. You can bet any amount, but it must not exceed your current funds. If your bet is successful, your potential win is triple your bet.
 5. **Winning**: 
-   - If all three slot machine numbers match, you win.
-   - A special win occurs if the numbers are all 3s and your win amount is more than $5.00, multiplying the jackpot.
+   - If all three slot machine numbers match, you win 5.00.
+   - A Mega Jackpot occurs if the numbers are all 3s on the special jackpot, multiplying the jackpot by your bet.
    - Otherwise, you win the current jackpot or the amount based on your bet.
 6. **Continuing Play**: After each round, you can choose to play again if you have at least $1.00. If not, you need to reload your funds.
 
