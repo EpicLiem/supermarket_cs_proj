@@ -221,7 +221,7 @@ public class Display {
                     customer.setInterest(0.1);
                     System.out.println("\uD83E\uDD11 You now owe $" + customer.getDebt() + " to the IMF at a 10% interest rate. 5% of the loan is paid off automatically every period. \uD83E\uDD11");
                     this.Update();
-                } catch (Exception e) {git
+                } catch (Exception e) {
                     if (choice.equalsIgnoreCase("L")) {
                         System.out.println("How much do you want to pay?");
                         System.out.print("Amount: ");
