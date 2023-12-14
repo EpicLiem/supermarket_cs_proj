@@ -24,6 +24,7 @@ public class Display {
             System.out.println("You are bankrupt! Game Over!");
             System.exit(0);
         }
+        customer.addDebt(customer.getDebt()* -0.05);
         System.out.println("I. Change Stores, O. View Cart, P. Make money, ;. Loans | Money: " + customer.getMoney() + " | Debt: " + customer.getDebt());
         switch (state) {
             case 0:
@@ -210,7 +211,7 @@ public class Display {
             break;
             case 4:
                 System.out.println("\uD83C\uDFE6 IMF Loans \uD83C\uDFE6");
-                System.out.print("How much do you want to borrow?(Amount or P to pay):");
+                System.out.print("How much do you want to borrow?(Amount or L to pay):");
                 choice = input.nextLine();
                 try {
                     double itemChoice = Double.parseDouble(choice);
@@ -220,8 +221,8 @@ public class Display {
                     customer.setInterest(0.1);
                     System.out.println("\uD83E\uDD11 You now owe $" + customer.getDebt() + " to the IMF at a 10% interest rate. 5% of the loan is paid off automatically every period. \uD83E\uDD11");
                     this.Update();
-                } catch (Exception e) {
-                    if (choice.equalsIgnoreCase("P")) {
+                } catch (Exception e) {git
+                    if (choice.equalsIgnoreCase("L")) {
                         System.out.println("How much do you want to pay?");
                         System.out.print("Amount: ");
                         choice = input.nextLine();
