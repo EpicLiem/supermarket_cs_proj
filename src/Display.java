@@ -1,5 +1,6 @@
 // wanted to do a full terminal gui, but didn't feel like learning the lower-level system.out methods, or figure out external libraries
 
+import java.awt.*;
 import java.util.*;
 
 public class Display {
@@ -75,15 +76,22 @@ public class Display {
                     }
                 }
                 System.out.println("Total: $" + customer.getTotal());
-                System.out.print("Choice (C to checkout): ");
+                System.out.print("Choice (C to checkout/X to clear): ");
                 choice = input.nextLine();
                 if (choice.equalsIgnoreCase("C")) {
                     if (customer.checkout()) {
                         System.out.println("New balance: " + customer.money);
-                    }
-                    else {
+                        if ((int)(Math.random() * 10) == 1) {
+                            System.out.println("\uD83D\uDCA5 You got robbed while leaving the store \uD83D\uDCA5");
+                            System.out.println("You lost $" + customer.getMoney() * 0.1 + " and your items!");
+                            customer.addMoney(-customer.getMoney() * 0.1);
+                        }
+                        customer.getCart().clear();
+                    } else {
                         System.out.println("Card Error 51: Insufficient funds");
                     }
+                } else if (choice.equalsIgnoreCase("X")) {
+                    customer.getCart().clear();
                 } else {
                     Menu(choice);
                 }
@@ -200,6 +208,8 @@ public class Display {
                 } catch (Exception e) {
                     Menu(choice);
                 }
+            break;
+
 
         }
     }
@@ -224,6 +234,7 @@ public class Display {
         }
         System.out.println("\uD83C\uDFB0");
         System.out.flush();
+        Thread.sleep(500);
     }
 
     private void Menu(String choice) {

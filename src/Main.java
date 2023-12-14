@@ -33,7 +33,7 @@ public class Main {
                 new Item("Kitchen Utensils", 24.99)
         });
 
-        Customer customer = new Customer("User", 100000.0);
+        Customer customer = new Customer("User", 10000.0);
 
         Display display = new Display(new Store[]{homeDepot, bestBuy, target}, customer);
         display.Update();
