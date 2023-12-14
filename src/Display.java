@@ -18,7 +18,13 @@ public class Display {
     public void Update() {
         Scanner input = new Scanner(System.in);
         String choice = null;
-        System.out.println("I. Change Stores, O. View Cart, P. Make money | Money: " + customer.getMoney());
+        customer.updateDebt();
+        customer.addMoney(customer.getDebt() * -0.05);
+        if (customer.getMoney() < 0) {
+            System.out.println("You are bankrupt! Game Over!");
+            System.exit(0);
+        }
+        System.out.println("I. Change Stores, O. View Cart, P. Make money, ;. Loans | Money: " + customer.getMoney() + " | Debt: " + customer.getDebt());
         switch (state) {
             case 0:
                 System.out.println("Select a Store");
@@ -106,6 +112,21 @@ public class Display {
                     double itemChoice = Double.parseDouble(choice);
                     itemChoice = Math.round(itemChoice * 100) / 100.0;
                     customer.addMoney(-itemChoice);
+                    System.out.print("How much do you want to bet?: ");
+                    choice = input.nextLine();
+                    double bet = 1.00;
+                    try {
+                        bet = Double.parseDouble(choice);
+                        bet = Math.round(bet * 100) / 100.0;
+                        if (bet > itemChoice) {
+                            System.out.println("Error 51: Insufficient funds");
+                            break;
+                        }
+                        itemChoice -= bet;
+                    } catch (Exception e) {
+                        Menu(choice);
+                    }
+
                     if (itemChoice <= customer.getMoney() || !(itemChoice < 1)) {
                         boolean playing = true;
                         double jackpot = 10.00;
@@ -117,40 +138,18 @@ public class Display {
                             int rand2 = (int) (Math.random() * 3) + 1;
                             int rand3 = (int) (Math.random() * 3) + 1;
                             int specialbet = (int) (Math.random() * 50);
-                            double winamount = 5.00;
-                            System.out.println("Current Jackpot: $" + jackpot);
+                            double winamount = bet * 5.00;
+                            System.out.println("Current Jackpot: $" + jackpot * bet);
 
-                            if (specialbet == 1) {
-                                itemChoice++;
-                                System.out.println("🎉🎉🎉 SPECIAL JACKPOT! 🎉🎉🎉");
-                                System.out.println("🎉🎉🎉 Enter the amount you want to bet to win the jackpot! 🎉🎉🎉");
-                                System.out.print("🎉🎉🎉 Bet: ");
-                                choice = input.nextLine();
-                                try {
-                                    double bet = Double.parseDouble(choice);
-                                    bet = Math.round(bet * 100) / 100.0;
-                                    if (bet > itemChoice) {
-                                        System.out.println("Error 51: Insufficient funds");
-                                        break;
-                                    }
-                                       itemChoice -= bet;
-                                    winamount = bet * 3;
-                                    System.out.println("🎉🎉🎉 You bet $" + bet + " and can win $" + winamount + "! 🎉🎉🎉");
-                                } catch (Exception e) {
-                                    Menu(choice);
-                                }
 
-                            }
                             animateNumbers(rand1, rand2, rand3);
                             if (rand1 == rand2 && rand2 == rand3) {
                                 if (rand1 == 3) {
                                     if (winamount > 5.00) {
-                                        double multiplier = winamount / 5.00;
-                                        jackpot *= multiplier;
+                                        jackpot *= bet;
                                         jackpot = Math.round(jackpot * 100) / 100.0;
                                         System.out.println("🎉🎉🎉 MEGA JACKPOT! You won $" + jackpot + "! 🎉🎉🎉");
-                                    }
-                                    else {
+                                    } else {
                                         System.out.println("🎉🎉🎉 JACKPOT! You won $" + jackpot + "! 🎉🎉🎉");
                                         itemChoice += jackpot;
                                         jackpot = 10.00;
@@ -168,12 +167,12 @@ public class Display {
                                 jackpot += 0.10;
                             }
                             System.out.println("Current Balance: " + itemChoice);
-                            System.out.print("Play again($1.00)? (Any Input/N): ");
+                            System.out.print("Play again($" + bet + ")? (Any Input/N): ");
                             choice = input.nextLine();
                             if (choice.equalsIgnoreCase("N")) {
                                 playing = false;
                             }
-                            if (itemChoice < 1.00) {
+                            if (itemChoice < bet) {
                                 playing = false;
                                 System.out.println("You don't have enough money to play again!");
                                 System.out.print("Hit the amount to Reload: ");
@@ -185,7 +184,7 @@ public class Display {
                                         System.out.println("Error 404: Please select a valid item");
                                         System.out.print("Hit Enter to Reload: ");
                                         break;
-                                    } else if (itemChoice > customer.getMoney()){
+                                    } else if (itemChoice > customer.getMoney()) {
                                         System.out.println("Error 51: Insufficient funds");
                                         break;
                                     }
@@ -209,6 +208,47 @@ public class Display {
                     Menu(choice);
                 }
             break;
+            case 4:
+                System.out.println("\uD83C\uDFE6 IMF Loans \uD83C\uDFE6");
+                System.out.print("How much do you want to borrow?(Amount or P to pay):");
+                choice = input.nextLine();
+                try {
+                    double itemChoice = Double.parseDouble(choice);
+                    itemChoice = Math.round(itemChoice * 100) / 100.0;
+                    customer.addDebt(itemChoice);
+                    customer.addMoney(itemChoice);
+                    customer.setInterest(0.1);
+                    System.out.println("\uD83E\uDD11 You now owe $" + customer.getDebt() + " to the IMF at a 10% interest rate. 5% of the loan is paid off automatically every period. \uD83E\uDD11");
+                    this.Update();
+                } catch (Exception e) {
+                    if (choice.equalsIgnoreCase("P")) {
+                        System.out.println("How much do you want to pay?");
+                        System.out.print("Amount: ");
+                        choice = input.nextLine();
+                        try {
+                            double itemChoice = Double.parseDouble(choice);
+                            itemChoice = Math.round(itemChoice * 100) / 100.0;
+                            if (itemChoice > customer.getMoney()) {
+                                System.out.println("Error 51: Insufficient funds");
+                                break;
+                            }
+
+                            customer.addMoney(-itemChoice);
+                            customer.addDebt(-itemChoice);
+                            if (customer.getDebt() <= 0) {
+                                customer.setInterest(0);
+                                customer.addDebt(-customer.getDebt());
+                            }
+                            System.out.println("You now owe $" + customer.getDebt() + " to the IMF at a 10% interest rate. 5% of the loan is paid off automatically every period.");
+                            this.Update();
+                        } catch (Exception e1) {
+                            Menu(choice);
+                        }
+                    } else {
+                        Menu(choice);
+                    }
+                }
+
 
 
         }
@@ -248,6 +288,9 @@ public class Display {
                 break;
             case "P":
                 state = 3;
+                break;
+            case ";":
+                    state = 4;
                 break;
             default:
                 System.out.println("Error 404: Unknown option");
