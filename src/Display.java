@@ -106,6 +106,7 @@ public class Display {
             case 3:
                 System.out.println("\uD83C\uDFB0 Slot Machine Extravaganza \uD83C\uDFB0");
                 System.out.println("\uD83C\uDF52 Match 3 symbols to win! Special 333 jackpot available! \uD83C\uDF52");
+                System.out.println("I recommend using a terminal instead of intellij to run b/c the animation looks better");
                 System.out.println("\uD83D\uDCB0 How much do you want to insert?");
                 System.out.print("\uD83D\uDCB0 Amount/Choice: ");
                 choice = input.nextLine();
@@ -134,7 +135,7 @@ public class Display {
                         while (playing) {
                             jackpot = Math.round(jackpot * 100) / 100.0;
                             itemChoice = Math.round(itemChoice * 100) / 100.0;
-                            itemChoice--;
+                            itemChoice -= bet;
                             int rand1 = (int) (Math.random() * 3) + 1;
                             int rand2 = (int) (Math.random() * 3) + 1;
                             int rand3 = (int) (Math.random() * 3) + 1;
@@ -257,14 +258,22 @@ public class Display {
 
     private static void animateNumbers(int number1, int number2, int number3) throws InterruptedException {
         int[] arr = {number1, number2, number3};
+        int[] arr2 = {(int) (Math.random() * 3) + 1, (int) (Math.random() * 3) + 1, (int) (Math.random() * 3) + 1};
         System.out.print("\uD83C\uDFB0 ");
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 1000; j++) {
                 for (int k = 0; k < 3 - i; k++) {
-                    System.out.print((int)(Math.random() * 3) + 1);
+                    System.out.print(arr2[k]);
+                    if (arr2[k] % 3 == 0) {
+                        arr2[k] = 1;
+                    } else {
+                        arr2[k]++;
+                    }
                     System.out.print(" ");
                 }
-                Thread.sleep((long) ((double)(Math.random() * 2)));
+                System.out.print("\uD83C\uDFB0");
+                Thread.sleep(1);
+                System.out.print("\b\b");
                 for (int k = 0; k < 3 - i; k++) {
                     System.out.print("\b\b");
                 }
