@@ -27,6 +27,7 @@ public class Customer {
 
     public void addMoney(double amount) {
         money += amount;
+        money = Math.round(money *100)/100.0;
     }
     public void addItem(Item item) {
         if (cart.contains(item)) {
@@ -57,13 +58,21 @@ public class Customer {
         }
         return Math.round(price *100)/100.0;
     }
+
+    public int getItemCount() {
+        int count = 0;
+        for (Item item : cart) {
+            count += item.quantity;
+        }
+        return count;
+    }
     public boolean checkout() {
         double total = this.getTotal();
 
         if (total > money) {
             return false;
         } else {
-            money -= total;
+            this.money -= total;
             cart.clear();
             return true;
         }

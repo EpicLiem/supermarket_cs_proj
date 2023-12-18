@@ -16,6 +16,7 @@ public class Display {
     }
 
     public void Update() {
+        System.out.print("\033[H\033[2J");
         Scanner input = new Scanner(System.in);
         String choice = null;
         customer.updateDebt();
@@ -52,7 +53,7 @@ public class Display {
                 break;
 
             case 1:
-                System.out.println("Current Store's Items");
+                System.out.println("Current Store's Items | " + currentStore.getName() + " | Cart: " + customer.getItemCount() + " | Total: $" + customer.getTotal());
                 for (int i = 0; i < currentStore.getItems().length; i++) {
                     System.out.println((i + 1) + ". " + currentStore.getItems()[i].toString());
                 }
@@ -96,6 +97,9 @@ public class Display {
                         customer.getCart().clear();
                     } else {
                         System.out.println("Card Error 51: Insufficient funds");
+                        System.out.print("Hit Enter to Reload: ");
+                        input.nextLine();
+                        this.Update();
                     }
                 } else if (choice.equalsIgnoreCase("X")) {
                     customer.getCart().clear();
@@ -133,6 +137,9 @@ public class Display {
                         boolean playing = true;
                         double jackpot = 10.00;
                         while (playing) {
+                            System.out.print("\033[H\033[2J");
+                            System.out.println("\uD83C\uDFB0 Slot Machine Extravaganza \uD83C\uDFB0");
+
                             jackpot = Math.round(jackpot * 100) / 100.0;
                             itemChoice = Math.round(itemChoice * 100) / 100.0;
                             itemChoice -= bet;
@@ -142,6 +149,7 @@ public class Display {
                             int specialbet = (int) (Math.random() * 50);
                             double winamount = bet * 5.00;
                             System.out.println("Current Jackpot: $" + jackpot * bet);
+                            System.out.println("Current Balance: $" + itemChoice);
 
 
                             animateNumbers(rand1, rand2, rand3);
@@ -168,7 +176,6 @@ public class Display {
                                 System.out.println("😔 Better luck next time!");
                                 jackpot += 0.10;
                             }
-                            System.out.println("Current Balance: " + itemChoice);
                             System.out.print("Play again($" + bet + ")? (Any Input/N): ");
                             choice = input.nextLine();
                             if (choice.equalsIgnoreCase("N")) {
