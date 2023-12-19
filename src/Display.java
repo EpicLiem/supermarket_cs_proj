@@ -1,6 +1,7 @@
 // wanted to do a full terminal gui, but didn't feel like learning the lower-level system.out methods, or figure out external libraries
 
-import java.awt.*;
+import javax.sound.sampled.*;
+import java.io.File;
 import java.util.*;
 
 public class Display {
